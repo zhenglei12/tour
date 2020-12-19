@@ -1,0 +1,109 @@
+<?php
+
+
+namespace App\Http\Controllers\Admin;
+
+
+use App\Http\Constants\CodeMessageConstants;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+
+class RoleControllers extends Controller
+{
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * FunctionName：list
+     * Description：列表
+     * Author：cherish
+     * @return mixed
+     */
+    public function list()
+    {
+        $page = $this->request->input('page') ?? 1;
+        $pageSize = $this->request->input('pageSize') ?? 10;
+        $role = Role::where("guard_name", "admin");
+        if($this->request->input('name')){
+            $role->where('name', $this->request->input('name'));
+        }
+        return $role->paginate($pageSize, ['*'], $page);
+    }
+
+    /**
+     * FunctionName：detail
+     * Description：详情
+     * Author：cherish
+     * @return mixed
+     */
+    public function detail()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
+        ]);
+        return Role::find($this->request->input('id'));
+    }
+
+    /**
+     * FunctionName：add
+     * Description：创建
+     * Author：cherish
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function add()
+    {
+        $this->request->validate([
+            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name'],
+        ]);
+        return Role::create(['name' => $this->request->input('name'), 'guard_name' => 'admin']);
+    }
+
+    /**
+     * FunctionName：update
+     * Description：更新
+     * Author：cherish
+     * @return mixed
+     */
+    public function update()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
+            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name'],
+        ]);
+        $id = $this->request->input('id');
+        $this->checkRole($id);
+        return Role::where('id', $id)->update(['name' => $this->request->input('name')]);
+    }
+
+    /**
+     * FunctionName：delete
+     * Description：删除
+     * Author：cherish
+     * @return mixed
+     */
+    public function delete()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
+        ]);
+        $id = $this->request->input('id');
+        $this->checkRole($id);
+        return  Role::destroy($id);
+    }
+
+    /**
+     * FunctionName：checkRole
+     * Description：检查是否操作系统管理员
+     * Author：cherish
+     * @param $id
+     */
+    private function checkRole($id)
+    {
+        if($id == 1)
+            throw \ExceptionFactory::business(CodeMessageConstants::IS_ADMIN);
+        return;
+    }
+}
