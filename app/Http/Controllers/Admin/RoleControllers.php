@@ -1,11 +1,11 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Constants\CodeMessageConstants;
 use App\Http\Controllers\Controller;
+use App\Http\Services\PermissionService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -27,7 +27,7 @@ class RoleControllers extends Controller
         $page = $this->request->input('page') ?? 1;
         $pageSize = $this->request->input('pageSize') ?? 10;
         $role = Role::where("guard_name", "admin");
-        if($this->request->input('name')){
+        if ($this->request->input('name')) {
             $role->where('name', $this->request->input('name'));
         }
         return $role->paginate($pageSize, ['*'], $page);
@@ -91,7 +91,40 @@ class RoleControllers extends Controller
         ]);
         $id = $this->request->input('id');
         $this->checkRole($id);
-        return  Role::destroy($id);
+        return Role::destroy($id);
+    }
+
+    /**
+     * FunctionName：permission
+     * Description：获取角色权限
+     * Author：cherish
+     * @return PermissionService
+     */
+    public function permission()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
+        ]);
+        $role = Role::query()->findOrFail($this->request->input('id'));
+        return new PermissionService($role->permissions);
+    }
+
+    /**
+     * FunctionName：addPermission
+     * Description：添加权限
+     * Author：cherish
+     */
+    public function addPermission()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
+            'permissions' => 'array'
+        ]);
+        $id = $this->request->input('id');
+        //  $this->checkRole($id);
+        $role = Role::query()->findOrFail($id);
+        $role->syncPermissions($this->request->input('permissions', []));
+        return;
     }
 
     /**
@@ -102,7 +135,7 @@ class RoleControllers extends Controller
      */
     private function checkRole($id)
     {
-        if($id == 1)
+        if ($id == 1)
             throw \ExceptionFactory::business(CodeMessageConstants::IS_ADMIN);
         return;
     }

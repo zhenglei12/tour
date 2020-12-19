@@ -110,6 +110,7 @@ class PermissionControllers extends Controller
      */
     public function all()
     {
-        return  Permission::get();
+        return Permission::get();
     }
+
 }
