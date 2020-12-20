@@ -31,8 +31,8 @@ class UserControllers extends Controller
         $page = $this->request->input('page') ?? 1;
         $pageSize = $this->request->input('pageSize') ?? 10;
         $user = new User();
-        if ($this->request->input('name')) {
-            $user->where('name', $this->request->input('name'));
+        if ($this->request->input('username')) {
+            $user->where('name', $this->request->input('username'));
         }
         return $user->paginate($pageSize, ['*'], $page);
     }
