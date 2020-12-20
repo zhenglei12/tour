@@ -80,12 +80,12 @@ class UserControllers extends Controller
     public function add()
     {
         $this->request->validate([
-            'name' => ['required', 'unique:' . (new User())->getTable() . ',name'],
+            'username' => ['required', 'unique:' . (new User())->getTable() . ',name'],
             'password' => 'required',
             'email' => ['required', 'unique:' . (new User())->getTable() . ',email']
         ]);
         return User::create([
-            'name' => $this->request->input('name'),
+            'name' => $this->request->input('username'),
             'password' => Hash::make($this->request->input('password')),
             'email' => $this->request->input('email')
         ]);
