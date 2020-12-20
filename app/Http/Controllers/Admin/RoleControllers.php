@@ -69,11 +69,11 @@ class RoleControllers extends Controller
      */
     public function update()
     {
+        $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
-            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name'],
+            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name,'. $id],
         ]);
-        $id = $this->request->input('id');
         $this->checkRole($id);
         return Role::where('id', $id)->update(['name' => $this->request->input('name')]);
     }
