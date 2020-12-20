@@ -59,10 +59,11 @@ class UserControllers extends Controller
      */
     public function update()
     {
+        $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new User())->getTable() . ',id'],
-            'username' => ['required', 'unique:' . (new User())->getTable() . ',name'],
-            'email' => ['unique:' . (new User())->getTable() . ',email']
+            'username' => ['required', 'unique:' . (new User())->getTable() . ',name,'. $id],
+            'email' => ['unique:' . (new User())->getTable() . ',email,'. $id]
         ]);
         $data['name'] = $this->request->input('username');
         if ($this->request->input('password'))
