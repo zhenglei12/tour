@@ -75,12 +75,12 @@ class PermissionControllers extends Controller
      */
     public function update()
     {
+        $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Permission())->getTable() . ',id'],
-            'name' => 'required',
-            'alias' => 'required',
+            'name' => ['required', 'unique:' . (new Permission())->getTable() . ',name,'. $id],
+            'alias' => ['required', 'unique:' . (new Permission())->getTable() . ',alias,'. $id],
         ]);
-        $id = $this->request->input('id');
         return Permission::where('id', $id)->update([
                 'name' => $this->request->input('name'),
                 'alias' => $this->request->input('alias')
