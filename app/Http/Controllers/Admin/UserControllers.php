@@ -169,6 +169,6 @@ class UserControllers extends Controller
      */
     public function permission()
     {
-        return response()->json(['data' => \Auth::user()->getAllPermissions()]);
+        return \Auth::user()->getAllPermissions();
     }
 }
