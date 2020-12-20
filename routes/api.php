@@ -52,5 +52,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("user/delete", "UserControllers@delete")->name('user-delete');
     Route::post("user/role/list", "UserControllers@roleList")->name('user-role.list');
     Route::post("user/add/role", "UserControllers@addRole")->name('user-add.role');
+
+
+    Route::post("trip/list", "TripControllers@list")->name('trip-list');
+    Route::post("trip/detail", "TripControllers@detail")->name('trip-detail');
+    Route::post("trip/update", "TripControllers@update")->name('trip-update');
+    Route::post("trip/add", "TripControllers@add")->name('trip-add');
+    Route::post("trip/delete", "TripControllers@delete")->name('trip-delete');
 });
 
