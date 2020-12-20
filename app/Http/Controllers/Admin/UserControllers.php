@@ -114,10 +114,10 @@ class UserControllers extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'name' => "required",
+            'username' => "required",
             "password" => "required"
         ]);
-        return $this->services->login($this->request->input('name'), $this->request->input('password'));
+        return $this->services->login($this->request->input('username'), $this->request->input('password'));
     }
 
     /**
