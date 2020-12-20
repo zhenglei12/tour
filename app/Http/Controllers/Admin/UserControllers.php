@@ -32,7 +32,7 @@ class UserControllers extends Controller
         $pageSize = $this->request->input('pageSize') ?? 10;
         $user = new User();
         if ($this->request->input('username')) {
-            $user =  $user->where('name', $this->request->input('username'));
+            $user = $user->where('name', $this->request->input('username'));
         }
         return $user->paginate($pageSize, ['*'], $page);
     }
@@ -61,10 +61,10 @@ class UserControllers extends Controller
     {
         $this->request->validate([
             'id' => ['required', 'exists:' . (new User())->getTable() . ',id'],
-            'name' => ['unique:' . (new User())->getTable() . ',name'],
+            'username' => ['required', 'unique:' . (new User())->getTable() . ',name'],
             'email' => ['unique:' . (new User())->getTable() . ',email']
         ]);
-        $data['name'] = $this->request->input('name');
+        $data['name'] = $this->request->input('username');
         if ($this->request->input('password'))
             $data['password'] = Hash::make($this->request->input('password'));
         return User::where('id', $this->request->input('id'))->update($data);
