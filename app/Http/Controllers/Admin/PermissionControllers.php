@@ -56,8 +56,8 @@ class PermissionControllers extends Controller
     public function add()
     {
         $this->request->validate([
-            'name' => 'required',
-            'alias' => 'required',
+            'name' => ['required', 'unique:' . (new Permission())->getTable() . ',name'],
+            'alias' => ['required', 'unique:' . (new Permission())->getTable() . ',alias'],
         ]);
         return Permission::create([
                 'name' => $this->request->input('name'),
