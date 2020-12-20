@@ -28,7 +28,7 @@ class RoleControllers extends Controller
         $pageSize = $this->request->input('pageSize') ?? 10;
         $role = Role::where("guard_name", "admin");
         if ($this->request->input('name')) {
-            $role->where('name', $this->request->input('name'));
+            $role =  $role->where('name', $this->request->input('name'));
         }
         return $role->paginate($pageSize, ['*'], $page);
     }
