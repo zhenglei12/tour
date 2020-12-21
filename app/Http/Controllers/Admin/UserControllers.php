@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Model\User;
 use App\Http\Services\UserServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -62,8 +63,8 @@ class UserControllers extends Controller
         $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new User())->getTable() . ',id'],
-            'username' => ['required', 'unique:' . (new User())->getTable() . ',name,'. $id],
-            'email' => ['unique:' . (new User())->getTable() . ',email,'. $id]
+            'username' => ['required', 'unique:' . (new User())->getTable() . ',name,' . $id],
+            'email' => ['unique:' . (new User())->getTable() . ',email,' . $id]
         ]);
         $data['name'] = $this->request->input('username');
         if ($this->request->input('password'))
@@ -171,5 +172,17 @@ class UserControllers extends Controller
     public function permission()
     {
         return \Auth::user()->getAllPermissions();
+    }
+
+    /**
+     * FunctionName：logout
+     * Description：退出登陆
+     * Author：cherish
+     * @return mixed
+     */
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
+        return;
     }
 }
