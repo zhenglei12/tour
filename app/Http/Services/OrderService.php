@@ -4,9 +4,11 @@
 namespace App\Http\Services;
 
 
+use App\Http\Constants\CodeMessageConstants;
 use App\Http\Model\Order;
 use App\Http\Model\OrderStaff;
 use App\Http\Model\TripInfo;
+use Illuminate\Support\Carbon;
 
 class OrderService
 {
@@ -21,6 +23,74 @@ class OrderService
     {
         $data['ordersn'] = $this->getOrdersn();
         $order = Order::create($data);
+        $this->updateTO($order, $data);
+        return $order;
+    }
+
+    /**
+     * FunctionName：update
+     * Description：更新
+     * Author：cherish
+     * @param $data
+     */
+    public function update($data)
+    {
+        $order = $this->checkOrderStatus($data['id']);
+        Order::where('id', $data['id'])->update(self::initData($data));
+        $this->updateTO($order, $data);
+        return;
+    }
+
+    /**
+     * FunctionName：audit
+     * Description：审核订单
+     * Author：cherish
+     * @param $data
+     * @return mixed
+     */
+    public function audit($data)
+    {
+        $this->checkOrderStatus($data['id']);
+        return Order::where('id', $data['id'])->update(['status' => $data['status']]);
+    }
+
+    /**
+     * FunctionName：statistics
+     * Description：统计
+     * Author：cherish
+     * @return mixed
+     */
+    public function statistics()
+    {
+        $data['count'] = Order::sum('tour_fee_amount');
+        $data['month_count'] = Order::whereBetween('created_at',[date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        return $data;
+    }
+
+    /**
+     * FunctionName：checkOrderStatus
+     * Description：检查订单状态
+     * Author：cherish
+     * @param $id
+     * @return mixed
+     */
+    private function checkOrderStatus($id)
+    {
+        $order = Order::find($id);
+        if ($order['status'] == 1)
+            throw \ExceptionFactory::business(CodeMessageConstants::ORDER_CHECK);
+        return $order;
+    }
+
+    /**
+     * FunctionName：updateTO
+     * Description：更新数据
+     * Author：cherish
+     * @param $order
+     * @param $data
+     */
+    private function updateTO($order, $data)
+    {
         if (isset($data['trip_info']) && count($data['trip_info']) > 0) {
             TripInfo::where('t_id', $data['t_id'])->delete();
             foreach ($data['trip_info'] as $v) {
@@ -33,7 +103,36 @@ class OrderService
                 $order->oderStaff()->create($v);
             }
         }
-        return $order;
+        return;
+    }
+
+    /**
+     * FunctionName：initData
+     * Description：初始化数据
+     * Author：cherish
+     * @param $data
+     * @return array
+     */
+    private function initData($data)
+    {
+        $initData = [];
+        $initData['enter_date'] = $data['enter_date'];
+        $initData['name'] = $data['name'];
+        $initData['enter_date'] = $data['enter_date'];
+        $initData['area'] = $data['area'];
+        $initData['t_id'] = $data['t_id'];
+        $initData['vip_card'] = $data['vip_card'];
+        $initData['tour_fee_amount'] = $data['tour_fee_amount'] ?? 0;
+        $initData['deposit_amount'] = $data['deposit_amount'] ?? 0;
+        $initData['rebate_amount'] = $data['rebate_amount'] ?? 0;
+        $initData['balance_amount'] = $data['balance_amount'] ?? 0;
+        $initData['collection_amount'] = $data['collection_amount'] ?? 0;
+        $initData['numbers'] = $data['numbers'];
+        $initData['meet_day'] = $data['meet_day'] ?? '';
+        $initData['leave_day'] = $data['leave_day'] ?? '';
+        $initData['leave_number'] = $data['leave_number'] ?? '';
+        $initData['remark'] = $data['remark'] ?? '';
+        return $initData;
     }
 
     /**
@@ -44,7 +143,7 @@ class OrderService
      */
     public function getOrdersn()
     {
-       $ordersn =  "121" . date('ymdHis') . mt_rand(1000, 9999);
-       return $ordersn;
+        $ordersn = "121" . date('ymdHis') . mt_rand(1000, 9999);
+        return $ordersn;
     }
 }

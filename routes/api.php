@@ -62,9 +62,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
 
 
     Route::post("order/list", "OrderControllers@list")->name('trip-list');
-    Route::post("order/detail", "OrderControllers@detail")->name('trip-detail');
+    Route::get("order/detail", "OrderControllers@detail")->name('trip-detail');
     Route::post("order/add", "OrderControllers@add")->name('trip-add');
     Route::post("order/update", "OrderControllers@update")->name('trip-update');
+    Route::post("order/audit", "OrderControllers@audit")->name('trip-audit');
+    Route::post("order/statistics", "OrderControllers@statistics")->name('trip-statistics');
 
 });
 

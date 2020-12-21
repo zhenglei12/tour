@@ -11,4 +11,5 @@ class CodeMessageConstants
     const NO_LOGIN = ['code' => 401, 'message' => "请先登陆"];
     const FORBIDDEN= ['code' => 40, 'message' => "您没有权限"];
     const IS_ADMIN = ['code' => 2, 'message' => "不能操作系统管理员系统管理员"];
+    const ORDER_CHECK = ['code' => 3, 'message' => "不能操作已经审核的订单"];
 }

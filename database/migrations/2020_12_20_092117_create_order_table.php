@@ -21,11 +21,11 @@ class CreateOrderTable extends Migration
             $table->string('ordersn', 100)->unique('ordersn')->comment("订单号");
             $table->string('t_id')->index('tid')->comment('路线id');
             $table->string('vip_card')->nullable()->index('index_card')->comment("vip卡号");
-            $table->decimal("tour_fee_amount", 4)->default(0)->comment("总团费");
-            $table->decimal("deposit_amount", 4)->default(0)->comment("定金");
-            $table->decimal("rebate_amount", 4)->default(0)->comment("返利金额");
-            $table->decimal("balance_amount", 4)->default(0)->comment("尾款金额");
-            $table->decimal("collection_amount", 4)->default(0)->comment("代收款");
+            $table->decimal("tour_fee_amount", 10,2)->default(0)->comment("总团费");
+            $table->decimal("deposit_amount", 10,2)->default(0)->comment("定金");
+            $table->decimal("rebate_amount", 10,2)->default(0)->comment("返利金额");
+            $table->decimal("balance_amount", 10,2)->default(0)->comment("尾款金额");
+            $table->decimal("collection_amount", 10,2)->default(0)->comment("代收款");
             $table->string('up_group_date', 20)->comment("跟团日期");
             $table->string('off_group_date', 20)->comment("离团日期");
             $table->string('numbers', 20)->comment("人数");

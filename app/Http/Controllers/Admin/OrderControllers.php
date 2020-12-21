@@ -10,6 +10,7 @@ use App\Http\Model\Trip;
 use App\Http\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class OrderControllers extends Controller
 {
@@ -37,20 +38,97 @@ class OrderControllers extends Controller
             "rebate_amount", "status", "name"])
             ->with(['orderTrip' => function ($query) {
                 $query->select('id', 'name');
-            }, 'oderStaff' => function($query){
+            }, 'oderStaff' => function ($query) {
                 $query->select('order_id', 'name');
             }])->paginate($pageSize, ['*'], $page);
     }
 
 
+    /**
+     * FunctionName：detail
+     * Description：详情
+     * Author：cherish
+     * @return mixed
+     */
     public function detail()
     {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+        ]);
+        return Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTripInfo')->first();
     }
 
-    public function update()
+    /**
+     * FunctionName：audit
+     * Description：审核订单
+     * Author：cherish
+     * @param OrderService $service
+     * @return mixed
+     */
+    public function audit(OrderService $service)
     {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+            'status' => ['required', Rule::in(['1'])],
+        ]);
+        return $service->audit($this->request->input());
     }
 
+    /**
+     * FunctionName：statistics
+     * Description：统计
+     * Author：cherish
+     * @param OrderService $service
+     * @return mixed
+     */
+    public function statistics(OrderService $service)
+    {
+        return $service->statistics();
+    }
+
+    /**
+     * FunctionName：update
+     * Description：更新
+     * Author：cherish
+     * @param OrderService $service
+     * @return mixed
+     */
+    public function update(OrderService $service)
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+            "enter_date" => 'required|date',
+            "name" => 'required',
+            "area" => 'required',
+            "up_group_date" => 'required|date',
+            "t_id" => ['required', 'exists:' . (new Trip())->getTable() . ',id'],
+            "vip_card" => 'required',
+            "off_group_date" => 'required|date',
+            "numbers" => 'required',
+            'trip_info' => ['array'],
+            'trip_info.*.date' => 'required|date',
+            'trip_info.*.meal' => 'required',
+            'trip_info.*.stay' => 'required',
+            'trip_info.*.content' => 'required',
+            'order_staff' => ['array'],
+            'order_staff.*.id_crad' => 'required',
+            'order_staff.*.phone' => 'required',
+            'order_staff.*.type' => 'required',
+            'order_staff.*.name' => 'required',
+            'order_staff.*.card_type' => 'required',
+        ]);
+        return DB::transaction(function () use ($service) {
+            return $service->update($this->request->input());
+        });
+    }
+
+    /**
+     * FunctionName：add
+     * Description：创建
+     * Author：cherish
+     * @param OrderService $service
+     * @return mixed
+     */
     public function add(OrderService $service)
     {
 
