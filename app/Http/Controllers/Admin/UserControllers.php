@@ -35,7 +35,7 @@ class UserControllers extends Controller
         if ($this->request->input('username')) {
             $user = $user->where('name', $this->request->input('username'));
         }
-        return $user->paginate($pageSize, ['*'], $page);
+        return $user->paginate($pageSize, ['*'], "page", $page);
     }
 
     /**

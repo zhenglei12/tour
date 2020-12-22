@@ -34,7 +34,7 @@ class TripControllers
         if ($this->request->input('day')) {
             $trip = $trip->where('day', $this->request->input('day'));
         }
-        return $trip->with('tripInfo')->paginate($pageSize, ['*'], $page);
+        return $trip->with('tripInfo')->paginate($pageSize, ['*'], "page", $page);
     }
 
     /**
@@ -100,7 +100,7 @@ class TripControllers
             'info.*.stay' => 'required',
             'info.*.content' => 'required',
         ]);
-        return DB::transaction(function () use($service) {
+        return DB::transaction(function () use ($service) {
             return $service->update($this->request->input());
         });
     }
@@ -117,7 +117,7 @@ class TripControllers
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Trip())->getTable() . ',id'],
         ]);
-        return DB::transaction(function () use($service) {
+        return DB::transaction(function () use ($service) {
             return $service->delete($this->request->input('id'));
         });
     }

@@ -28,9 +28,9 @@ class RoleControllers extends Controller
         $pageSize = $this->request->input('pageSize') ?? 10;
         $role = Role::where("guard_name", "admin");
         if ($this->request->input('name')) {
-            $role =  $role->where('name', $this->request->input('name'));
+            $role = $role->where('name', $this->request->input('name'));
         }
-        return $role->paginate($pageSize, ['*'], $page);
+        return $role->paginate($pageSize, ['*'], "page", $page);
     }
 
     /**
@@ -72,7 +72,7 @@ class RoleControllers extends Controller
         $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Role())->getTable() . ',id'],
-            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name,'. $id],
+            'name' => ['required', 'unique:' . (new Role())->getTable() . ',name,' . $id],
         ]);
         $this->checkRole($id);
         return Role::where('id', $id)->update(['name' => $this->request->input('name')]);

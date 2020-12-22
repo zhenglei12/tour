@@ -30,7 +30,7 @@ class PermissionControllers extends Controller
         if ($this->request->input('alias')) {
             $permission->where('alias', $this->request->input('alias'));
         }
-        return $permission->paginate($pageSize, ['*'], $page);
+        return $permission->paginate($pageSize, ['*'], "page", $page);
     }
 
     /**
@@ -78,8 +78,8 @@ class PermissionControllers extends Controller
         $id = $this->request->input('id');
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Permission())->getTable() . ',id'],
-            'name' => ['required', 'unique:' . (new Permission())->getTable() . ',name,'. $id],
-            'alias' => ['required', 'unique:' . (new Permission())->getTable() . ',alias,'. $id],
+            'name' => ['required', 'unique:' . (new Permission())->getTable() . ',name,' . $id],
+            'alias' => ['required', 'unique:' . (new Permission())->getTable() . ',alias,' . $id],
         ]);
         return Permission::where('id', $id)->update([
                 'name' => $this->request->input('name'),

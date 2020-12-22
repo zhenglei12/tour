@@ -42,7 +42,7 @@ class OrderControllers extends Controller
                 $query->select('id', 'name');
             }, 'oderStaff' => function ($query) {
                 $query->select('order_id', 'name');
-            }])->paginate($pageSize, ['*'], $page);
+            }])->paginate($pageSize, ['*'], "page", $page);
     }
 
 
@@ -165,7 +165,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-     //   $order =  Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTrip', 'orderTripInfo')->first();
+        //   $order =  Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTrip', 'orderTripInfo')->first();
         return Excel::download(new ExportsOrderService($this->request->input('id')), '计划确认书' . date('Y:m:d') . '.xls');
     }
 }
