@@ -37,7 +37,7 @@ class OrderControllers extends Controller
         }
         return $order->select(['id', "t_id", "ordersn", "area", "up_group_date",
             "off_group_date", "vip_card", "numbers", "tour_fee_amount",
-            "rebate_amount", "status", "name"])
+            "rebate_amount", "status", "name", "created_at"])
             ->with(['orderTrip' => function ($query) {
                 $query->select('id', 'name');
             }, 'oderStaff' => function ($query) {
