@@ -48,8 +48,5 @@ class Order extends Model
         return $this->hasMany(TripInfo::class, "t_id", "t_id");
     }
 
-    protected function serializeDate(\DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
+
 }
