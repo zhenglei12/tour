@@ -7,10 +7,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Order;
 use App\Http\Model\Trip;
+use App\Http\Services\ExportsOrderService;
 use App\Http\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderControllers extends Controller
 {
@@ -156,5 +158,14 @@ class OrderControllers extends Controller
         return DB::transaction(function () use ($service) {
             return $service->add($this->request->input());
         });
+    }
+
+    public function exports()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+        ]);
+     //   $order =  Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTrip', 'orderTripInfo')->first();
+        return Excel::download(new ExportsOrderService($this->request->input('id')), '计划确认书' . date('Y:m:d') . '.xls');
     }
 }
