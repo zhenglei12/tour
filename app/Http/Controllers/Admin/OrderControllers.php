@@ -71,7 +71,7 @@ class OrderControllers extends Controller
     {
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
-            'status' => ['required', Rule::in(['1'])],
+            'status' => ['required', Rule::in(['1', '-2'])],
         ]);
         return $service->audit($this->request->input());
     }
@@ -160,6 +160,12 @@ class OrderControllers extends Controller
         });
     }
 
+    /**
+     * FunctionName：exports
+     * Description：导出
+     * Author：cherish
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function exports()
     {
         $this->request->validate([
