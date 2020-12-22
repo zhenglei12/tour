@@ -138,6 +138,7 @@ return [
         "alias" => "中文名称",
         "permissions" => "权限",
         "day" => "日期",
+        "email" => "邮箱",
         "info" => "行程信息",
         "info.*.date" => "时间",
         "info.*.meal" => "用餐安排",
