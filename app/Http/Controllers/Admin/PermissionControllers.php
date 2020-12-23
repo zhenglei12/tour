@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Model\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use App\Http\Model\Permission;
 
 class PermissionControllers extends Controller
 {

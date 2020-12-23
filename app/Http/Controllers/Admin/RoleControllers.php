@@ -7,7 +7,7 @@ use App\Http\Constants\CodeMessageConstants;
 use App\Http\Controllers\Controller;
 use App\Http\Services\PermissionService;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Http\Model\Role;
 
 class RoleControllers extends Controller
 {

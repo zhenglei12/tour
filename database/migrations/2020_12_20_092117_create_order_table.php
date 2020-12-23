@@ -34,7 +34,7 @@ class CreateOrderTable extends Migration
             $table->string('leave_day', 20)->nullable()->comment("送站日期");
             $table->string('leave_number', 20)->nullable()->comment("送站航班或者火车号");
             $table->text('remark')->nullable()->comment("备注");
-            $table->integer('status')->index('index_status')->default(-1)->comment("订单状态 -1 审核中，1审核通过");
+            $table->integer('status')->index('index_status')->default(-1)->comment("订单状态 -2， -1 审核中，1审核通过");
             $table->timestamps();
         });
     }
