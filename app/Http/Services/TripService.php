@@ -4,6 +4,8 @@
 namespace App\Http\Services;
 
 
+use App\Http\Constants\CodeMessageConstants;
+use App\Http\Model\Order;
 use App\Http\Model\Trip;
 use App\Http\Model\TripInfo;
 
@@ -34,6 +36,10 @@ class TripService
      */
     public function delete($id)
     {
+        $order = Order::where('t_id', $id)->first();
+        if ($order) {
+            throw \ExceptionFactory::business(CodeMessageConstants::TRIP_CHECK);
+        }
         Trip::where('id', $id)->delete();
         $this->deleteTripInfo($id);
         return;

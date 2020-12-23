@@ -3,6 +3,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Constants\BaseConstants;
 use App\Http\Model\Order;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -47,11 +48,11 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         ];
         if ($order->orderTripInfo) {
             foreach ($order->orderTripInfo as $key => $v) {
-                array_push($this->data, [$v['date'], $v['content'], "", "", "", "", $v['meal'], $v['stay']]);
+                array_push($this->data, [$v['date'], $v['content'], "", "", "", "", BaseConstants::METAL[$v['meal']], BaseConstants::STAY[$v['stay']]]);
                 $this->s_row[$key] = count($this->data) + 1;
             }
         }
-        array_push($this->data, ["姓名", "证件号码", "", "", "", "", "联系电话", "住宿"]);
+        array_push($this->data, ["姓名", "证件号码", "", "", "", "联系电话", "类型", "证件"]);
         $this->st_row = count($this->data) + 1;
         if ($order->orderStaff) {
             foreach ($order->orderStaff as $key => $v) {
@@ -68,20 +69,6 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
 
     public function collection()
     {
-//        $data = [
-//            ['录单日期', "", '2020-12-1', '', '制单人', "ceshi"],
-//            ["游玩地区", "北京", "", "路线名称", "测试路线", "", "VIP卡号", "ssssdxxxxxx11222"],
-//            ["总团费", "500", "定金", "11", "尾款金额", "200", "代收款", "dasd"],
-//            ["跟团日期", "2020-20-1", "离团日期", "2020-20-12", "人数", "200", "", ""],
-//            ["时间", "行程安排", "", "", "", "", "用餐", "住宿"],
-//            ["9月09号", "去干嘛行程安排撒的撒的身上多多少少撒打算打算速度速度速度速度颠三倒四的十四大去干嘛行程安排撒的撒的身上多多少少撒打算打算速度速度速度速度颠三倒四的十四大去干嘛行程安排撒的撒的身上多多少少撒打算打算速度速度速度速度颠三倒四的十四大去干嘛行程安排撒的撒的身上多多少少撒打算打算速度速度速度速度颠三倒四的十四大", "", "", "", "", "早餐", "自理"],
-//            ["姓名", "证件号码", "", "", "", "联系电话", "住宿"],
-//            ["张三", "4212224113212421", "", "", "", "14191819198", "成人", "身份证"],
-//            ["机票信息"],
-//            ["", "接站日期", "2020-1-1", "航班号", "SJKJKKL", "", "", ""],
-//            ["", "送站日期", "2020-1-1", "航班号", "SJKJKKL", "", "", ""],
-//            ["备注", "", "", "", "", "", "", "", "",],
-//        ];
         return collect($this->data);
     }
 
@@ -105,7 +92,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
 
         if (count($this->t_row) > 0) {
             foreach ($this->t_row as $value) {
-                $sheet->mergeCells("B" . $value . ":F" . $value); //合并
+                $sheet->mergeCells("B" . $value . ":E" . $value); //合并
             }
         }
 
@@ -133,5 +120,6 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         ];
         $sheet->getStyle('A1:h' . $this->row)->applyFromArray($styles);
     }
+
 }
 

@@ -133,7 +133,6 @@ class OrderControllers extends Controller
      */
     public function add(OrderService $service)
     {
-
         $this->request->validate([
             "enter_date" => 'required|date',
             "name" => 'required',
@@ -171,7 +170,6 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        //   $order =  Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTrip', 'orderTripInfo')->first();
         return Excel::download(new ExportsOrderService($this->request->input('id')), '计划确认书' . date('Y:m:d') . '.xls');
     }
 }
