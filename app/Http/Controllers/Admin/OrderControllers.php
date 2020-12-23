@@ -40,7 +40,7 @@ class OrderControllers extends Controller
             "rebate_amount", "status", "name", "created_at"])
             ->with(['orderTrip' => function ($query) {
                 $query->select('id', 'name');
-            }, 'oderStaff' => function ($query) {
+            }, 'orderStaff' => function ($query) {
                 $query->select('order_id', 'name');
             }])->paginate($pageSize, ['*'], "page", $page);
     }
@@ -57,7 +57,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        return Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTripInfo')->first();
+        return Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTripInfo')->first();
     }
 
     /**
@@ -171,7 +171,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        //   $order =  Order::where('id', $this->request->input('id'))->with('oderStaff', 'orderTrip', 'orderTripInfo')->first();
+        //   $order =  Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTrip', 'orderTripInfo')->first();
         return Excel::download(new ExportsOrderService($this->request->input('id')), '计划确认书' . date('Y:m:d') . '.xls');
     }
 }

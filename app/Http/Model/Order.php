@@ -33,7 +33,7 @@ class Order extends Model
         "status"
     ];
 
-    public function oderStaff()
+    public function orderStaff()
     {
         return $this->hasMany(OrderStaff::class, 'order_id', 'id');
     }
