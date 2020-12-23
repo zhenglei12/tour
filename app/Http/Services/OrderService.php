@@ -100,7 +100,7 @@ class OrderService
         if (isset($data['order_staff']) && count($data['order_staff']) > 0) {
             OrderStaff::where('order_id', $order->id)->delete();
             foreach ($data['order_staff'] as $v) {
-                $order->oderStaff()->create($v);
+                $order->orderStaff()->create($v);
             }
         }
         return;
