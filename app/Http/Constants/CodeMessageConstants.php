@@ -13,5 +13,8 @@ class CodeMessageConstants
     const IS_ADMIN = ['code' => 2, 'message' => "不能操作系统管理员系统管理员"];
     const ORDER_CHECK = ['code' => 3, 'message' => "不能操作已经审核的订单"];
     const TRIP_CHECK = ['code' => 4, 'message' => "行程下面有订单关联不能删除"];
-    const AGENT_CHECK = ['code' => 4, 'message' => "代理下面有订单关联不能删除"];
+    const AGENT_CHECK = ['code' => 10, 'message' => "代理下面有订单关联不能删除"];
+    const FILE_CHECK = ['code' => 5, 'message' => "上传正确格式的文件"];
+    const FILE_CHECK_SIZE = ['code' => 6, 'message' => "文件数量不能超过1000条"];
+    const FILE_CHECK_ZERO = ['code' => 7, 'message' => "文件没有内容"];
 }

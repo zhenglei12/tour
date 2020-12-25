@@ -75,9 +75,19 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
 
 
     Route::post("agent/list", "AgentControllers@list")->name('agent-list');
+    Route::post("agent/order/list", "AgentControllers@orderlist")->name('agent-order.list');
     Route::get("agent/detail", "AgentControllers@detail")->name('agent-detail');
     Route::post("agent/update", "AgentControllers@update")->name('agent-update');
     Route::post("agent/add", "AgentControllers@add")->name('agent-add');
     Route::post("agent/delete", "AgentControllers@delete")->name('agent-delete');
+
+    Route::post("resources/import", "ResourcesController@import")->name('resources-import');
+    Route::post("resources/list", "ResourcesController@list")->name('resources-list');
+    Route::get("resources/detail", "ResourcesController@detail")->name('resources-detail');
+    Route::post("resources/update", "ResourcesController@update")->name('resources-update');
+    Route::post("resources/add", "ResourcesController@add")->name('resources-add');
+    Route::post("resources/delete", "ResourcesController@delete")->name('resources-delete');
+    Route::post("resources/list", "ResourcesController@list")->name('resources-list');
+    Route::post("resources/distribute/list", "ResourcesController@distributeList")->name('resources-distribute.list');
 });
 
