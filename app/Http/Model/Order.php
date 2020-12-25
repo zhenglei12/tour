@@ -15,8 +15,8 @@ class Order extends Model
         "name",
         'ordersn',
         'rebate_amount',
-        "area",
         "t_id",
+        "a_id",
         "vip_card",
         "tour_fee_amount",
         "deposit_amount",
@@ -46,6 +46,11 @@ class Order extends Model
     public function orderTripInfo()
     {
         return $this->hasMany(TripInfo::class, "t_id", "t_id");
+    }
+
+    public function orderAgent()
+    {
+        return $this->hasOne(Agent::class, 'id', 'a_id');
     }
 
     protected $casts = [

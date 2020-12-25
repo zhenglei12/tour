@@ -29,7 +29,7 @@ class TripControllers
         $pageSize = $this->request->input('pageSize') ?? 10;
         $trip = new Trip();
         if ($this->request->input('name')) {
-            $trip = $trip->where('name', $this->request->input('name'));
+            $trip = $trip->where('name', 'like', "%" . $this->request->input('name') . "%");
         }
         if ($this->request->input('day')) {
             $trip = $trip->where('day', $this->request->input('day'));

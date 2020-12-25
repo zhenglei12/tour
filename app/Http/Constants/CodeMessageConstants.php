@@ -13,4 +13,5 @@ class CodeMessageConstants
     const IS_ADMIN = ['code' => 2, 'message' => "不能操作系统管理员系统管理员"];
     const ORDER_CHECK = ['code' => 3, 'message' => "不能操作已经审核的订单"];
     const TRIP_CHECK = ['code' => 4, 'message' => "行程下面有订单关联不能删除"];
+    const AGENT_CHECK = ['code' => 4, 'message' => "代理下面有订单关联不能删除"];
 }

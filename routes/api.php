@@ -21,7 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Admin'], function () {
     Route::post("auth/login", "UserControllers@login");
-    Route::get("order/exports1", "OrderControllers@exports")->name('trip-exports');
+    Route::get("order/exports1", "OrderControllers@exports");
+    Route::post("public/agent/list", "AgentControllers@list");
+    Route::post("public/trip/list", "TripControllers@list");
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:sanctum',], function () {
@@ -70,5 +72,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("order/audit", "OrderControllers@audit")->name('trip-audit');
     Route::post("order/statistics", "OrderControllers@statistics")->name('trip-statistics');
     Route::post("order/exports", "OrderControllers@exports")->name('trip-exports');
+
+
+    Route::post("agent/list", "AgentControllers@list")->name('agent-list');
+    Route::get("agent/detail", "AgentControllers@detail")->name('agent-detail');
+    Route::post("agent/update", "AgentControllers@update")->name('agent-update');
+    Route::post("agent/add", "AgentControllers@add")->name('agent-add');
+    Route::post("agent/delete", "AgentControllers@delete")->name('agent-delete');
 });
 

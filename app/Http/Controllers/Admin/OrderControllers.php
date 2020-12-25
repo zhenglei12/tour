@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Model\Agent;
 use App\Http\Model\Order;
 use App\Http\Model\Trip;
 use App\Http\Services\ExportsOrderService;
@@ -27,22 +28,27 @@ class OrderControllers extends Controller
         $pageSize = $this->request->input('pageSize') ?? 10;
         $order = new Order();
         if ($this->request->input('name')) {
-            $order = $order->where('name', $this->request->input('name'));
+            $order = $order->where('name', 'like', "%" . $this->request->input('name') . "%");
         }
         if ($this->request->input('status')) {
             $order = $order->where('status', $this->request->input('status'));
         }
         if ($this->request->input('vip_card')) {
-            $order = $order->where('vip_card', $this->request->input('vip_card'));
+            $order = $order->where('vip_card', 'like', "%" . $this->request->input('vip_card') . "%");
         }
-        return $order->select(['id', "t_id", "ordersn", "area", "up_group_date",
+        return $order->select([
+            'id', "t_id", "ordersn", "up_group_date",'a_id',
             "off_group_date", "vip_card", "numbers", "tour_fee_amount",
-            "rebate_amount", "status", "name", "created_at"])
-            ->with(['orderTrip' => function ($query) {
-                $query->select('id', 'name');
-            }, 'orderStaff' => function ($query) {
-                $query->select('order_id', 'name');
-            }])->paginate($pageSize, ['*'], "page", $page);
+            "rebate_amount", "status", "name", "created_at"
+        ])->with([
+                'orderTrip' => function ($query) {
+                    $query->select('id', 'name', 'area');
+                }, 'orderStaff' => function ($query) {
+                    $query->select('order_id', 'name');
+                }, 'orderAgent' => function ($query) {
+                    $query->select('id', 'name');
+                }
+            ])->paginate($pageSize, ['*'], "page", $page);
     }
 
 
@@ -57,7 +63,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        return Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTripInfo')->first();
+        return Order::where('id', $this->request->input('id'))->with('orderTrip', 'orderStaff', 'orderTripInfo', "orderAgent")->first();
     }
 
     /**
@@ -139,6 +145,7 @@ class OrderControllers extends Controller
             "area" => 'required',
             "up_group_date" => 'required|date',
             "t_id" => ['required', 'exists:' . (new Trip())->getTable() . ',id'],
+            "a_id" => ['required', 'exists:' . (new Agent())->getTable() . ',id'],
             "vip_card" => 'required',
             "off_group_date" => 'required|date',
             "numbers" => 'required',

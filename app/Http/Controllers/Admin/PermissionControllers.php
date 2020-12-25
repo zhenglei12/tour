@@ -28,7 +28,7 @@ class PermissionControllers extends Controller
         $pageSize = $this->request->input('pageSize') ?? 10;
         $permission = Permission::where("guard_name", "admin");
         if ($this->request->input('alias')) {
-            $permission->where('alias', $this->request->input('alias'));
+            $permission->where('alias', 'like', "%" . $this->request->input('alias') . "%");
         }
         return $permission->paginate($pageSize, ['*'], "page", $page);
     }

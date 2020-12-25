@@ -144,7 +144,8 @@ return [
         "info.*.meal" => "用餐安排",
         "info.*.stay" => "住宿安排",
         "info.*.content" => "行程内容",
-
+        "shop_name" => "店铺名称",
+        "merchants_name" => "招商员"
     ],
 
 ];

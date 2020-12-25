@@ -17,9 +17,9 @@ class CreateOrderTable extends Migration
             $table->id();
             $table->string('enter_date')->comment('录单日期');
             $table->string("name", 40)->index('index_name')->comment("制单人");
-            $table->string('area', 20)->comment("游玩地区");
             $table->string('ordersn', 100)->unique('ordersn')->comment("订单号");
             $table->string('t_id')->index('tid')->comment('路线id');
+            $table->string('a_id')->index('aid')->comment('代理商id');
             $table->string('vip_card')->nullable()->index('index_card')->comment("vip卡号");
             $table->decimal("tour_fee_amount", 10,2)->default(0)->comment("总团费");
             $table->decimal("deposit_amount", 10,2)->default(0)->comment("定金");

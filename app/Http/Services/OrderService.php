@@ -7,6 +7,7 @@ namespace App\Http\Services;
 use App\Http\Constants\CodeMessageConstants;
 use App\Http\Model\Order;
 use App\Http\Model\OrderStaff;
+use App\Http\Model\Trip;
 use App\Http\Model\TripInfo;
 use Illuminate\Support\Carbon;
 
@@ -23,6 +24,7 @@ class OrderService
     {
         $data['ordersn'] = $this->getOrdersn();
         $order = Order::create($data);
+        Trip::where('id', $data['t_id'])->update(['area' => $data['area']]);
         $this->updateTO($order, $data);
         return $order;
     }
@@ -37,6 +39,7 @@ class OrderService
     {
         $order = $this->checkOrderStatus($data['id']);
         Order::where('id', $data['id'])->update(self::initData($data));
+        Trip::where('id', $data['t_id'])->update(['area' => $data['area']]);
         $this->updateTO($order, $data);
         return;
     }
@@ -119,7 +122,6 @@ class OrderService
         $initData['enter_date'] = $data['enter_date'];
         $initData['name'] = $data['name'];
         $initData['enter_date'] = $data['enter_date'];
-        $initData['area'] = $data['area'];
         $initData['t_id'] = $data['t_id'];
         $initData['vip_card'] = $data['vip_card'];
         $initData['tour_fee_amount'] = $data['tour_fee_amount'] ?? 0;
