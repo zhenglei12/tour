@@ -132,6 +132,9 @@ class OrderService
         $initData['numbers'] = $data['numbers'];
         $initData['meet_day'] = $data['meet_day'] ?? '';
         $initData['leave_day'] = $data['leave_day'] ?? '';
+        $initData['leave_day'] = $data['leave_day'] ?? '';
+        $initData['up_group_date'] = $data['up_group_date'] ?? '';
+        $initData['off_group_date'] = $data['off_group_date'] ?? '';
         $initData['leave_number'] = $data['leave_number'] ?? '';
         $initData['remark'] = $data['remark'] ?? '';
         return $initData;

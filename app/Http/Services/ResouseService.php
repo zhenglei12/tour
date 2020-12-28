@@ -46,7 +46,12 @@ class ResouseService
         if (!in_array($sExt, ['xls', 'csv', 'xlsx'])) {
             throw \ExceptionFactory::business(CodeMessageConstants::FILE_CHECK); //检查文件类型
         }
-        $data = \Excel::toArray(new ImportResouseService(), request()->file('excel'));
+        try {
+            $data = \Excel::toArray(new ImportResouseService(), request()->file('excel'));
+
+        }catch (\Exception $e){
+            throw \ExceptionFactory::business(CodeMessageConstants::FILE_ERROR); //检查文件类型
+        }
         if (count($data[0]) <= 1)
             throw \ExceptionFactory::business(CodeMessageConstants::FILE_CHECK_ZERO);
         if (count($data[0]) > 2000)
