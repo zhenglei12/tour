@@ -12,6 +12,28 @@ use Illuminate\Support\Facades\DB;
 class ResouseService
 {
     /**
+     * FunctionName：distribute
+     * Description：分配
+     * Author：cherish
+     * @param $name
+     * @param $row
+     * @return mixed
+     */
+    public function distribute($name, $row)
+    {
+        $rowRe = Resources::where('man_name', '=', null)->count();
+        if ($rowRe <= 0)
+            throw \ExceptionFactory::business(CodeMessageConstants::R_NULL);
+        if ($row > 1000)
+            throw \ExceptionFactory::business(CodeMessageConstants::R_LIMIT_ROW);
+        if (($rowRe - $row <= 0))
+            throw \ExceptionFactory::business(['code' => 22, 'message' => "剩余可分配" . $rowRe]);
+        $reData = Resources::where('man_name', '=', null)->limit($row)->get();
+        $ids = array_column($reData->toArray(), 'id');
+        return Resources::whereIn('id', $ids)->update(['man_name' => $name]);
+    }
+
+    /**
      * FunctionName：importCreate
      * Description：倒入创建数据
      * Author：cherish
@@ -27,7 +49,7 @@ class ResouseService
         $data = \Excel::toArray(new ImportResouseService(), request()->file('excel'));
         if (count($data[0]) <= 1)
             throw \ExceptionFactory::business(CodeMessageConstants::FILE_CHECK_ZERO);
-        if (count($data[0]) > 1000)
+        if (count($data[0]) > 2000)
             throw \ExceptionFactory::business(CodeMessageConstants::FILE_CHECK_SIZE);
 
         return $this->createData($data);

@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:sanctum',], function
     Route::get("user/detail", "UserControllers@detail");
     Route::get("user/permission", "UserControllers@permission");
     Route::post("auth/logout", "UserControllers@logout");
+    Route::post("permission/all", "PermissionControllers@all");
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], function () {
@@ -46,7 +47,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("permission/add", "PermissionControllers@add")->name('permission-add');
     Route::post("permission/update", "PermissionControllers@update")->name('permission-update');
     Route::post("permission/delete", "PermissionControllers@delete")->name('permission-delete');
-    Route::post("permission/all", "PermissionControllers@all")->name('permission-all');
+
 
 
     Route::post("user/list", "UserControllers@list")->name('user-list');
@@ -65,13 +66,13 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("trip/delete", "TripControllers@delete")->name('trip-delete');
 
 
-    Route::post("order/list", "OrderControllers@list")->name('trip-list');
-    Route::get("order/detail", "OrderControllers@detail")->name('trip-detail');
-    Route::post("order/add", "OrderControllers@add")->name('trip-add');
-    Route::post("order/update", "OrderControllers@update")->name('trip-update');
-    Route::post("order/audit", "OrderControllers@audit")->name('trip-audit');
-    Route::post("order/statistics", "OrderControllers@statistics")->name('trip-statistics');
-    Route::post("order/exports", "OrderControllers@exports")->name('trip-exports');
+    Route::post("order/list", "OrderControllers@list")->name('order-list');
+    Route::get("order/detail", "OrderControllers@detail")->name('order-detail');
+    Route::post("order/add", "OrderControllers@add")->name('order-add');
+    Route::post("order/update", "OrderControllers@update")->name('order-update');
+    Route::post("order/audit", "OrderControllers@audit")->name('order-audit');
+    Route::post("order/statistics", "OrderControllers@statistics")->name('order-statistics');
+    Route::post("order/exports", "OrderControllers@exports")->name('order-exports');
 
 
     Route::post("agent/list", "AgentControllers@list")->name('agent-list');
@@ -87,7 +88,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("resources/update", "ResourcesController@update")->name('resources-update');
     Route::post("resources/add", "ResourcesController@add")->name('resources-add');
     Route::post("resources/delete", "ResourcesController@delete")->name('resources-delete');
-    Route::post("resources/list", "ResourcesController@list")->name('resources-list');
+    Route::post("resources/distribute", "ResourcesController@distribute")->name('resources-distribute');
     Route::post("resources/distribute/list", "ResourcesController@distributeList")->name('resources-distribute.list');
 });
 

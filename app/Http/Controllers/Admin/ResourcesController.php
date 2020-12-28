@@ -58,6 +58,24 @@ class ResourcesController extends Controller
     }
 
     /**
+     * FunctionName：distribute
+     * Description：分配
+     * Author：cherish
+     * @param ResouseService $service
+     * @return mixed
+     */
+    public function distribute(ResouseService $service)
+    {
+        $this->request->validate([
+            'man_name' => ['required'],
+            "row" => "required"
+        ]);
+        return DB::transaction(function () use ($service) {
+            return $service->distribute($this->request->input('man_name'), $this->request->input('row'));
+        });
+    }
+
+    /**
      * FunctionName：detail
      * Description：详情
      * Author：cherish
