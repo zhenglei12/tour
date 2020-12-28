@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:sanctum',], function
     Route::get("user/permission", "UserControllers@permission");
     Route::post("auth/logout", "UserControllers@logout");
     Route::post("permission/all", "PermissionControllers@all");
+    Route::post("role/all", "RoleControllers@all");
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], function () {

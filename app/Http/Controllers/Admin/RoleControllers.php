@@ -34,6 +34,23 @@ class RoleControllers extends Controller
     }
 
     /**
+     * FunctionName：list
+     * Description：列表
+     * Author：cherish
+     * @return mixed
+     */
+    public function all()
+    {
+        $page = $this->request->input('page') ?? 1;
+        $pageSize = $this->request->input('pageSize') ?? 10;
+        $role = Role::where("guard_name", "admin");
+        if ($this->request->input('name')) {
+            $role = $role->where('name', 'like', "%" . $this->request->input('name') . "%");
+        }
+        return $role->paginate($pageSize, ['*'], "page", $page);
+    }
+
+    /**
      * FunctionName：detail
      * Description：详情
      * Author：cherish
