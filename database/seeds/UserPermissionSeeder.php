@@ -27,7 +27,7 @@ class UserPermissionSeeder extends Seeder
         ["name" => "permission-update", "guard_name" => "admin", "alias" => "权限更新"],
         ["name" => "permission-delete", "guard_name" => "admin", "alias" => "权限删除"],
 
-        ["name" => "trip-liste", "guard_name" => "admin", "alias" => "行程列表"],
+        ["name" => "trip-list", "guard_name" => "admin", "alias" => "行程列表"],
         ["name" => "trip-detail", "guard_name" => "admin", "alias" => "行程详情"],
         ["name" => "trip-add", "guard_name" => "admin", "alias" => "行程添加"],
         ["name" => "trip-update", "guard_name" => "admin", "alias" => "行程更新"],
