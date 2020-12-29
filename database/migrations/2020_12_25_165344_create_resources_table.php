@@ -20,7 +20,7 @@ class CreateResourcesTable extends Migration
             $table->string('phone', 30)->nullable()->comment('电话号码');
             $table->string('address')->nullable()->comment('收件地址');
             $table->string('send_info')->nullable()->comment('发货信息');
-            $table->string('man_name')->nullable()->index('index_name')->comment('业务员名称');
+            $table->string('man_name')->nullable()->index('index_man_name')->comment('业务员名称');
             $table->timestamps();
         });
     }
