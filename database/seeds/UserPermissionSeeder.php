@@ -77,7 +77,7 @@ class UserPermissionSeeder extends Seeder
         \App\Http\Model\User::create([
             'name' => 'admin',
             'email' => 'admin@qq.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('admin'), // secret
+            'password' => \Illuminate\Support\Facades\Hash::make('lywang123'), // secret
         ]);
     }
 
