@@ -38,7 +38,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
 
     private function setData($id)
     {
-        $order = Order::where('id', $id)->with('orderStaff', 'orderTrip', 'orderTripInfo')->first();
+        $order = Order::where('id', $id)->with('orderStaff', 'orderTrip', 'orderT')->first();
         $this->data = [
             ['录单日期', "", $order['enter_date'], '', '制单人', $order['name']],
             ["游玩地区", $order['area'], "", "路线名称", $order->orderTrip['name'] ?? '', "", "VIP卡号", $order['vip_card']],
@@ -46,8 +46,8 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
             ["跟团日期", $order['up_group_date'], "离团日期", $order['off_group_date'], "人数", $order['numbers'], "", ""],
             ["时间", "行程安排", "", "", "", "", "用餐", "住宿"],
         ];
-        if ($order->orderTripInfo) {
-            foreach ($order->orderTripInfo as $key => $v) {
+        if ($order->orderT) {
+            foreach ($order->orderT as $key => $v) {
                 array_push($this->data, [$v['date'], $v['content'], "", "", "", "", BaseConstants::METAL[$v['meal']], BaseConstants::STAY[$v['stay']]]);
                 $this->s_row[$key] = count($this->data) + 1;
             }

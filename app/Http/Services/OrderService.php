@@ -7,12 +7,25 @@ namespace App\Http\Services;
 use App\Http\Constants\CodeMessageConstants;
 use App\Http\Model\Order;
 use App\Http\Model\OrderStaff;
+use App\Http\Model\OrderTrip;
 use App\Http\Model\Trip;
 use App\Http\Model\TripInfo;
 use Illuminate\Support\Carbon;
 
 class OrderService
 {
+
+    public function diffBetweenTwoDays($day1, $day2, $data)
+    {
+        $day = (floor((strtotime($day2) - strtotime($day1)) / 86400)) + 1;
+        $count = count($data['trip_info']);
+        if ($day - $count != 0) {
+            throw \ExceptionFactory::business(CodeMessageConstants::CHECK_DAY);
+        }
+
+        return;
+    }
+
     /**
      * FunctionName：add
      * Description：添加
@@ -23,8 +36,8 @@ class OrderService
     public function add($data)
     {
         $data['ordersn'] = $this->getOrdersn();
+        $this->diffBetweenTwoDays($data['up_group_date'], $data['off_group_date'], $data);
         $order = Order::create($data);
-        Trip::where('id', $data['t_id'])->update(['area' => $data['area']]);
         $this->updateTO($order, $data);
         return $order;
     }
@@ -38,8 +51,8 @@ class OrderService
     public function update($data)
     {
         $order = $this->checkOrderStatus($data['id']);
+        $this->diffBetweenTwoDays($data['up_group_date'], $data['off_group_date'], $data);
         Order::where('id', $data['id'])->update(self::initData($data));
-        Trip::where('id', $data['t_id'])->update(['area' => $data['area']]);
         $this->updateTO($order, $data);
         return;
     }
@@ -66,7 +79,7 @@ class OrderService
     public function statistics()
     {
         $data['count'] = Order::sum('tour_fee_amount');
-        $data['month_count'] = Order::whereBetween('created_at',[date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        $data['month_count'] = Order::whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
         return $data;
     }
 
@@ -95,9 +108,9 @@ class OrderService
     private function updateTO($order, $data)
     {
         if (isset($data['trip_info']) && count($data['trip_info']) > 0) {
-            TripInfo::where('t_id', $data['t_id'])->delete();
+            OrderTrip::where('order_id', $order['id'])->delete();
             foreach ($data['trip_info'] as $v) {
-                $order->orderTripInfo()->create($v);
+                $order->orderT()->create($v);
             }
         }
         if (isset($data['order_staff']) && count($data['order_staff']) > 0) {

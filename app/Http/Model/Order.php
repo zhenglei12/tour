@@ -48,6 +48,11 @@ class Order extends Model
         return $this->hasMany(TripInfo::class, "t_id", "t_id");
     }
 
+    public function orderT()
+    {
+        return $this->hasMany(OrderTrip::class, 'order_id', 'id');
+    }
+
     public function orderAgent()
     {
         return $this->hasOne(Agent::class, 'id', 'a_id');

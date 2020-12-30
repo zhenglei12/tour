@@ -63,7 +63,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        return Order::where('id', $this->request->input('id'))->with('orderTrip', 'orderStaff', 'orderTripInfo', "orderAgent")->first();
+        return Order::where('id', $this->request->input('id'))->with('orderTrip', 'orderStaff', 'orderT', "orderAgent")->first();
     }
 
     /**

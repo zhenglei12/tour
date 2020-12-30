@@ -21,4 +21,5 @@ class CodeMessageConstants
     const R_NULL = ['code' => 20, 'message' => "没有待分配资源"];
     const R_LIMIIT = ['code' => 21, 'message' => "最多可分配1000条"];
     const R_LIMIT_ROW = ['code' => 22, 'message' => "剩余可分配"];
+    const CHECK_DAY = ['code' => 50, 'message' => "行程和天数不对等"];
 }
