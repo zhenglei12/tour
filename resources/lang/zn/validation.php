@@ -145,7 +145,10 @@ return [
         "info.*.stay" => "住宿安排",
         "info.*.content" => "行程内容",
         "shop_name" => "店铺名称",
-        "merchants_name" => "招商员"
+        "merchants_name" => "招商员",
+        "nickname" => "昵称",
+        "address" => "地址",
+        "send_info" => "发货信息",
     ],
 
 ];

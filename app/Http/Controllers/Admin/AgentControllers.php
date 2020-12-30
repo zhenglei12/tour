@@ -76,9 +76,10 @@ class AgentControllers extends Controller
         $this->request->validate([
             'name' => ["required", 'unique:' . (new Resources())->getTable() . ',name'],
             'phone' => 'required',
-            'nickname' => 'required',
+            'area' => 'required',
+            'shop_name' => 'required',
             'address' => 'required',
-            'send_info' => 'required',
+            'merchants_name' => 'required',
         ]);
         return Resources::create($this->request->input());
     }
