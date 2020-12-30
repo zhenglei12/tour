@@ -81,7 +81,7 @@ class AgentControllers extends Controller
             'address' => 'required',
             'merchants_name' => 'required',
         ]);
-        return Resources::create($this->request->input());
+        return Agent::create($this->request->input());
     }
 
     /**
