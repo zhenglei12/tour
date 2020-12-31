@@ -143,6 +143,7 @@ class OrderService
         $initData['balance_amount'] = $data['balance_amount'] ?? 0;
         $initData['collection_amount'] = $data['collection_amount'] ?? 0;
         $initData['numbers'] = $data['numbers'];
+        $initData['area'] = $data['area'] ?? '';
         $initData['meet_day'] = $data['meet_day'] ?? '';
         $initData['leave_day'] = $data['leave_day'] ?? '';
         $initData['leave_day'] = $data['leave_day'] ?? '';

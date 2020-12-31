@@ -18,6 +18,7 @@ class CreateOrderTable extends Migration
             $table->string('enter_date')->comment('录单日期');
             $table->string("name", 40)->index('index_name')->comment("制单人");
             $table->string('ordersn', 100)->unique('ordersn')->comment("订单号");
+            $table->string('area', 20)->comment("地区");
             $table->string('t_id')->index('tid')->comment('路线id');
             $table->string('a_id')->index('aid')->comment('代理商id');
             $table->string('vip_card')->nullable()->index('index_card')->comment("vip卡号");

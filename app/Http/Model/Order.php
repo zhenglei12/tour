@@ -13,6 +13,7 @@ class Order extends Model
     public $fillable = [
         "enter_date",
         "name",
+        "area",
         'ordersn',
         'rebate_amount',
         "t_id",
