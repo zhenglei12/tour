@@ -37,7 +37,7 @@ class OrderControllers extends Controller
             $order = $order->where('vip_card', 'like', "%" . $this->request->input('vip_card') . "%");
         }
         return $order->select([
-            'id', "t_id", "ordersn", "up_group_date",'a_id',
+            'id', "t_id", "ordersn", "up_group_date",'a_id', "area",
             "off_group_date", "vip_card", "numbers", "tour_fee_amount",
             "rebate_amount", "status", "name", "created_at"
         ])->with([
