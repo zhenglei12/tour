@@ -37,18 +37,18 @@ class OrderControllers extends Controller
             $order = $order->where('vip_card', 'like', "%" . $this->request->input('vip_card') . "%");
         }
         return $order->select([
-            'id', "t_id", "ordersn", "up_group_date",'a_id', "area",
+            'id', "t_id", "ordersn", "up_group_date", 'a_id', "area",
             "off_group_date", "vip_card", "numbers", "tour_fee_amount",
             "rebate_amount", "status", "name", "created_at"
         ])->with([
-                'orderTrip' => function ($query) {
-                    $query->select('id', 'name', 'area');
-                }, 'orderStaff' => function ($query) {
-                    $query->select('order_id', 'name');
-                }, 'orderAgent' => function ($query) {
-                    $query->select('id', 'name');
-                }
-            ])->paginate($pageSize, ['*'], "page", $page);
+            'orderTrip' => function ($query) {
+                $query->select('id', 'name', 'area');
+            }, 'orderStaff' => function ($query) {
+                $query->select('order_id', 'name', "id_crad");
+            }, 'orderAgent' => function ($query) {
+                $query->select('id', 'name');
+            }
+        ])->paginate($pageSize, ['*'], "page", $page);
     }
 
 
@@ -64,6 +64,21 @@ class OrderControllers extends Controller
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
         return Order::where('id', $this->request->input('id'))->with('orderTrip', 'orderStaff', 'orderT', "orderAgent")->first();
+    }
+
+    /**
+     * FunctionName：edit
+     * Description：编辑返利
+     * Author：cherish
+     * @return mixed
+     */
+    public function edit()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+            'rebate_amount' => 'required'
+        ]);
+        return Order::where('id', $this->request->input('id'))->update(['rebate_amount' => $this->request->input('rebate_amount')]);
     }
 
     /**

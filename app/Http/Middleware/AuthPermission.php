@@ -21,7 +21,6 @@ class AuthPermission
     public function handle($request, \Closure $next)
     {
         $permission = Route::currentRouteName();
-
         if (Auth::user()->can($permission)) {
             return $next($request);
         }

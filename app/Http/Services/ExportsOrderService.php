@@ -41,7 +41,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         $order = Order::where('id', $id)->with('orderStaff', 'orderTrip', 'orderT')->first();
         $this->data = [
             ['录单日期', "", $order['enter_date'], '', '制单人', $order['name']],
-            ["游玩地区", $order['area'], "", "路线名称", $order->orderTrip['name'] ?? '', "", "VIP卡号", $order['vip_card']],
+            ["游玩地区", $order['area'], "", "路线名称", $order->orderTrip['name'] ?? '', "", "", ""],
             ["总团费", $order['tour_fee_amount'], "定金", $order['deposit_amount'], "尾款金额", $order['balance_amount'], "代收款", $order['collection_amount']],
             ["跟团日期", $order['up_group_date'], "离团日期", $order['off_group_date'], "人数", $order['numbers'], "", ""],
             ["时间", "行程安排", "", "", "", "", "用餐", "住宿"],
@@ -61,8 +61,8 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
             }
         }
         array_push($this->data, ["机票信息"]);
-        array_push($this->data, ["", "接站日期", "2020-1-1", "航班号", "SJKJKKL", "", "", ""]);
-        array_push($this->data, ["", "送站日期", "2020-1-1", "航班号", "SJKJKKL", "", "", ""]);
+        array_push($this->data, ["", "接站日期", $order['meet_day'], "航班号", $order['meet_number'], "", "", ""]);
+        array_push($this->data, ["", "送站日期", $order['leave_day'], "航班号", $order['leave_number'], "", "", ""]);
         array_push($this->data, ["备注", "", "", "", "", "", "", "", "",]);
         $this->row = count($this->data) + 1;
     }

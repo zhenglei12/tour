@@ -78,8 +78,10 @@ class OrderService
      */
     public function statistics()
     {
-        $data['count'] = Order::sum('tour_fee_amount');
-        $data['month_count'] = Order::whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        $data['count'] = Order::sum('tour_fee_amount') + Order::sum('rebate_amount');
+        $m =  Order::whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        $n =  Order::whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('rebate_amount');
+        $data['month_count'] =  $m + $n;
         return $data;
     }
 
