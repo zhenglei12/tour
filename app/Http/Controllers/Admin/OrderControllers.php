@@ -145,7 +145,6 @@ class OrderControllers extends Controller
             "area" => 'required',
             "up_group_date" => 'required|date',
             "t_id" => ['required', 'exists:' . (new Trip())->getTable() . ',id'],
-            "a_id" => ['required', 'exists:' . (new Agent())->getTable() . ',id'],
             "vip_card" => 'required',
             "off_group_date" => 'required|date',
             "numbers" => 'required',

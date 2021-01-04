@@ -152,7 +152,11 @@ class RoleControllers extends Controller
      */
     private function checkRole($id)
     {
-        if ($id == 1)
+        $role = Role::find($id);
+        if ($role['alias']) {
+            throw \ExceptionFactory::business(CodeMessageConstants::IS_ADMIN_CHECK);
+        }
+        if ($role['name'] == "admin")
             throw \ExceptionFactory::business(CodeMessageConstants::IS_ADMIN);
         return;
     }

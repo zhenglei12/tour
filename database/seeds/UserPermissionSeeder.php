@@ -88,6 +88,12 @@ class UserPermissionSeeder extends Seeder
             'name' => 'admin',
             'guard_name' => 'admin'
         ]);
+
+        \App\Http\Model\Role::create([
+            'name' => '组员',
+            'guard_name' => 'admin',
+            "alias" => "staff"
+        ]);
     }
 
     public function createPermission()
