@@ -26,7 +26,7 @@ class ResouseService
             throw \ExceptionFactory::business(CodeMessageConstants::R_NULL);
         if ($row > 1000)
             throw \ExceptionFactory::business(CodeMessageConstants::R_LIMIT_ROW);
-        if (($rowRe - $row <= 0))
+        if (($rowRe - $row < 0))
             throw \ExceptionFactory::business(['code' => 22, 'message' => "剩余可分配" . $rowRe]);
         $reData = Resources::where('man_name', '=', null)->limit($row)->get();
         $ids = array_column($reData->toArray(), 'id');

@@ -77,7 +77,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         $this->defaultStyle($sheet);
 
         $sheet->getRowDimension(1)->setRowHeight(40);//设置第一行行高
-        $sheet->getRowDimension($this->row)->setRowHeight(60);//设置第一行行高
+        $sheet->getRowDimension($this->row)->setRowHeight(70);//设置第一行行高
 
         $sheet->getStyle('A1:H1')->getFont()->setSize(20)->setBold(true);
         $sheet->mergeCells("A1:H1"); //合并表第一行
@@ -105,7 +105,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
 
     public function defaultStyle(Worksheet $sheet)
     {
-        $sheet->getDefaultRowDimension()->setRowHeight(30);//设置默认行高
+        $sheet->getDefaultRowDimension()->setRowHeight(35);//设置默认行高
         $sheet->getDefaultColumnDimension()->setWidth(12);//设置默认的
         $sheet->getStyle('A1:H' . $this->row)->getAlignment()->setWrapText(true);
         $sheet->getStyle('A1:H' . $this->row)->getAlignment()->setVertical('center');//设置第一行垂直居中
