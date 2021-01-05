@@ -63,7 +63,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         array_push($this->data, ["机票信息"]);
         array_push($this->data, ["", "接站日期", $order['meet_day'], "航班号", $order['meet_number'], "", "", ""]);
         array_push($this->data, ["", "送站日期", $order['leave_day'], "航班号", $order['leave_number'], "", "", ""]);
-        array_push($this->data, ["备注", "", "", "", "", "", "", "", "",]);
+        array_push($this->data, ["备注", $order['remark'], "", "", "", "", "", "", "",]);
         $this->row = count($this->data) + 1;
     }
 
