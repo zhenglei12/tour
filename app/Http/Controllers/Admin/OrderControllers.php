@@ -192,9 +192,9 @@ class OrderControllers extends Controller
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
         $order = Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTrip', 'orderT')->first();
-        $staff = [];
+        $staff = "";
         if($order->orderStaff){
-           $staff =  array_column($order->orderStaff, 'name');
+           $staff =  array_column($order->orderStaff->toArray(), 'name');
         }
         return Excel::download(new ExportsOrderService($this->request->input('id')), $staff[0] . strtotime($order['enter_date']) . '.xls');
     }
