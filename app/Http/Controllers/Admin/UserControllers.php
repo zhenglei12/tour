@@ -104,7 +104,7 @@ class UserControllers extends Controller
             'id' => ['required', 'exists:' . (new User())->getTable() . ',id'],
         ]);
         $user = User::find($this->request->input('id'));
-        if ($user['admin'])
+        if ($user['name'] == "admin")
             throw \ExceptionFactory::business(CodeMessageConstants::IS_ADMIN);
         return User::where('id', $this->request->input('id'))->delete();
     }
