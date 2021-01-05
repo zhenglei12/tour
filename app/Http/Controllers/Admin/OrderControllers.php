@@ -196,7 +196,7 @@ class OrderControllers extends Controller
         if($order->orderStaff){
            $staff =  array_column($order->orderStaff->toArray(), 'name');
         }
-        dd($staff);
-        return Excel::download(new ExportsOrderService($this->request->input('id')), $staff[0] . strtotime($order['enter_date']) . '.xls');
+        $filename = $staff[0] . ($order['enter_date']) . '.xls';
+        return Excel::download(new ExportsOrderService($this->request->input('id')), $filename);
     }
 }

@@ -56,7 +56,7 @@ class ExportsOrderService implements FromCollection, WithHeadings, WithStyles
         $this->st_row = count($this->data) + 1;
         if ($order->orderStaff) {
             foreach ($order->orderStaff as $key => $v) {
-                array_push($this->data, [$v['name'], $v['id_crad'], "", "", "", $v['phone'], $v['type'], $v['card_type']]);
+                array_push($this->data, [$v['name'], "\t" . $v['id_crad'], "", "", "", $v['phone'], $v['type'], $v['card_type']]);
                 $this->t_row[$key] = count($this->data) + 1;
             }
         }
