@@ -34,6 +34,9 @@ class ResourcesController extends Controller
         if ($this->request->input('name')) {
             $res = $res->where('name', 'like', "%" . $this->request->input('name') . "%");
         }
+        if ($this->request->input('man_name')) {
+            $res = $res->where('man_name', 'like', "%" . $this->request->input('man_name') . "%");
+        }
         return $res->paginate($pageSize, ['*'], "page", $page);
     }
 
