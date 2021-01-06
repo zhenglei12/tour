@@ -41,7 +41,7 @@ class OrderControllers extends Controller
         return $order->select([
             'id', "t_id", "ordersn", "up_group_date", 'a_id', "area",
             "off_group_date", "vip_card", "numbers", "tour_fee_amount",
-            "rebate_amount", "status", "name", "created_at"
+            "rebate_amount", "status", "name", "created_at", "enter_date"
         ])->with([
             'orderTrip' => function ($query) {
                 $query->select('id', 'name', 'area');
@@ -117,9 +117,9 @@ class OrderControllers extends Controller
             $order = $order->where('staff_name', $this->request->input('staff_name'));
         }
         $data['count'] = $order->sum('tour_fee_amount') + $order->sum('rebate_amount');
-        $m =  $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
-        $n =  $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('rebate_amount');
-        $data['month_count'] =  $m + $n;
+        $m = $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        $n = $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('rebate_amount');
+        $data['month_count'] = $m + $n;
         return $data;
     }
 
@@ -207,8 +207,8 @@ class OrderControllers extends Controller
         ]);
         $order = Order::where('id', $this->request->input('id'))->with('orderStaff', 'orderTrip', 'orderT')->first();
         $staff = [];
-        if($order->orderStaff){
-           $staff =  array_column($order->orderStaff->toArray(), 'name');
+        if ($order->orderStaff) {
+            $staff = array_column($order->orderStaff->toArray(), 'name');
         }
         $filename = $staff[0] . ($order['enter_date']) . '.xls';
         return Excel::download(new ExportsOrderService($this->request->input('id')), $filename);
@@ -225,7 +225,7 @@ class OrderControllers extends Controller
         $this->request->validate([
             'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
         ]);
-        return DB::transaction(function (){
+        return DB::transaction(function () {
             $id = $this->request->input('id');
             Order::where('id', $id)->delete();
             OrderStaff::where('order_id', $id)->delete();
