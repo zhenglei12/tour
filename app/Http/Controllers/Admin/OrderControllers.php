@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Agent;
 use App\Http\Model\Order;
+use App\Http\Model\OrderStaff;
+use App\Http\Model\OrderTrip;
 use App\Http\Model\Trip;
 use App\Http\Services\ExportsOrderService;
 use App\Http\Services\OrderService;
@@ -198,5 +200,26 @@ class OrderControllers extends Controller
         }
         $filename = $staff[0] . ($order['enter_date']) . '.xls';
         return Excel::download(new ExportsOrderService($this->request->input('id')), $filename);
+    }
+
+    /**
+     * FunctionName：delete
+     * Description：删除
+     * Author：cherish
+     * @return mixed
+     */
+    public function delete()
+    {
+        $this->request->validate([
+            'id' => ['required', 'exists:' . (new Order())->getTable() . ',id'],
+        ]);
+        return DB::transaction(function (){
+            $id = $this->request->input('id');
+            Order::where('id', $id)->delete();
+            OrderStaff::where('order_id', $id)->delete();
+            OrderTrip::where('order_id', $id)->delete();
+            return;
+        });
+
     }
 }

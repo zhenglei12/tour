@@ -12,6 +12,7 @@ class OrderTrip extends Model
 
     public $fillable = [
         'ot_id',
+        'order_id',
         'date',
         'meal',
         'stay',
