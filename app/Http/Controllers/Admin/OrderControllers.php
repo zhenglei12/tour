@@ -108,7 +108,19 @@ class OrderControllers extends Controller
      */
     public function statistics(OrderService $service)
     {
-        return $service->statistics();
+        $order = new Order();
+        $user = \Auth::user();
+        if ($user->roles->pluck('alias')[0] == 'staff') {
+            $order = $order->where('staff_name', $user['name']);
+        }
+        if ($this->request->input('staff_name')) {
+            $order = $order->where('staff_name', $this->request->input('staff_name'));
+        }
+        $data['count'] = $order->sum('tour_fee_amount') + $order->sum('rebate_amount');
+        $m =  $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
+        $n =  $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('rebate_amount');
+        $data['month_count'] =  $m + $n;
+        return $data;
     }
 
     /**
