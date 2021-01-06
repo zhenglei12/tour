@@ -111,10 +111,10 @@ class OrderControllers extends Controller
         $order = new Order();
         $user = \Auth::user();
         if ($user->roles->pluck('alias')[0] == 'staff') {
-            $order = $order->where('staff_name', $user['name']);
+            $order = $order->where('name', $user['name']);
         }
         if ($this->request->input('staff_name')) {
-            $order = $order->where('staff_name', $this->request->input('staff_name'));
+            $order = $order->where('name', $this->request->input('staff_name'));
         }
         $data['count'] = $order->sum('tour_fee_amount') + $order->sum('rebate_amount');
         $m = $order->whereBetween('created_at', [date('Y-m-01'), date('Y-m-t')])->sum('tour_fee_amount');
