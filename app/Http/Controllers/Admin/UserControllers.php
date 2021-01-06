@@ -133,7 +133,9 @@ class UserControllers extends Controller
      */
     public function detail()
     {
-        return \Auth::user();
+        $user = \Auth::user();
+        $user->roles;
+        return $user;
     }
 
     /**

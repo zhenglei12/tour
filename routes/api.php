@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Admin'], function () {
     Route::get("order/exports1", "OrderControllers@exports");
     Route::post("public/agent/list", "AgentControllers@list");
     Route::post("public/trip/list", "TripControllers@list");
+    Route::post("pub/role/user_list", "RoleControllers@userList");
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:sanctum',], function () {
@@ -34,7 +35,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:sanctum',], function
     Route::post("role/all", "RoleControllers@all");
 });
 
-Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum', 'ly.permission']], function () {
     Route::post("role/list", "RoleControllers@list")->name('role-list');
     Route::get("role/detail", "RoleControllers@detail")->name('role-detail');
     Route::post("role/add", "RoleControllers@add")->name('role-add');
@@ -74,6 +75,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth:sanctum']], functio
     Route::post("order/audit", "OrderControllers@audit")->name('order-audit');
     Route::post("order/statistics", "OrderControllers@statistics")->name('order-statistics');
     Route::post("order/exports", "OrderControllers@exports")->name('order-exports');
+    Route::post("order/edit", "OrderControllers@edit")->name('order-edit');
 
 
     Route::post("agent/list", "AgentControllers@list")->name('agent-list');

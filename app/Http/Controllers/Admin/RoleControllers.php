@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Constants\CodeMessageConstants;
 use App\Http\Controllers\Controller;
+use App\Http\Model\User;
 use App\Http\Services\PermissionService;
 use Illuminate\Http\Request;
 use App\Http\Model\Role;
@@ -93,6 +94,15 @@ class RoleControllers extends Controller
         ]);
         $this->checkRole($id);
         return Role::where('id', $id)->update(['name' => $this->request->input('name')]);
+    }
+
+    public function userList()
+    {
+        $this->request->validate([
+            'alias' => ['required', 'exists:' . (new Role())->getTable() . ',alias'],
+        ]);
+        $role = Role::where('alias', $this->request->input('alias'))->first();
+        return  User::role($role['name'])->get();
     }
 
     /**
