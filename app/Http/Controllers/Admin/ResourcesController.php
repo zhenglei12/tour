@@ -159,7 +159,7 @@ class ResourcesController extends Controller
             "address" => $data['address'],
             "send_info" => $data['send_info'],
             "nickname" => $data['nickname'] ?? '',
-            "man_name" => $data['nickname'] ?? '',
+//            "man_name" => $data['nickname'] ?? '',
         ];
     }
 
